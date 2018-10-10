@@ -10,7 +10,7 @@ module.exports = function setupDevServer(app, callback) {
   let resolve;
   const readyPromise = new Promise(r => { resolve = r });
   const update = () => {
-    if (serverEntry) {
+    if (serverEntry && template) {
       callback(serverEntry, template);
       resolve(); // resolve Promise让服务端进行render
     }
