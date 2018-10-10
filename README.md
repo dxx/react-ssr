@@ -17,6 +17,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Builds the app for production.
 
-## `npm run start`
+### `npm run start`
 
 Starts the server for production.
