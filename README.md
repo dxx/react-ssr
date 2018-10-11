@@ -12,10 +12,15 @@ This is the first chapter of the code
 
 First, run the `npm install` to install dependence
 
+### `npm run dev`
+
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
 ### `npm run build`
 
-Builds the app.
+Builds the app for production.
 
 ### `npm run start`
 
-Starts the server.
+Starts the server for production.
