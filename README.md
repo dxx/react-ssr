@@ -4,7 +4,7 @@ This is a react ssr demo
 
 ## Instruction
 
-This is the first chapter of the code
+This is the second chapter of the code
 
 ## Available Scripts
 
