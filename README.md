@@ -1,6 +1,6 @@
 ## React SSR
 
-This is a react ssr demo
+This is a react ssr demo. It base on react16.x and webpack3.x
 
 ## Instruction
 
