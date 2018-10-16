@@ -2,6 +2,13 @@
 
 This is a react ssr demo. It base on react16.x and webpack3.x
 
+Feture:
+
+1. Support HMR in development mode
+2. Code Splitting base on route
+3. Head management for SEO
+4. Fetch Data ahead of time
+
 ## Available Scripts
 
 ### `npm install`
