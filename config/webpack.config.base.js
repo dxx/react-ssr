@@ -20,11 +20,6 @@ const baseWebpackConfig = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        loader: ["babel-loader", "eslint-loader"],
-        exclude: /node_modules/
-      },
-      {
         test: /\.(png|jpe?g|gif|svg)$/,
         loader: "url-loader",
         options: {

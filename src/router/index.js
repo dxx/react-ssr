@@ -1,33 +1,35 @@
 import NestedRoute from "./NestedRoute";
 import StatusRoute from "./StatusRoute";
 
-import Bar from "../views/Bar";
-import Baz from "../views/Baz";
-import Foo from "../views/Foo";
-import TopList from "../containers/TopList";
-import TopDetail from "../containers/TopDetail";
+import Loadable from "loadable-components";
+
+// import Bar from "../views/Bar";
+// import Baz from "../views/Baz";
+// import Foo from "../views/Foo";
+// import TopList from "../containers/TopList";
+// import TopDetail from "../containers/TopDetail";
 
 const router = [
   {
     path: "/bar",
-    component: Bar
+    component: Loadable(() => import("../views/Bar"))
   },
   {
     path: "/baz",
-    component: Baz
+    component: Loadable(() => import("../views/Baz"))
   },
   {
     path: "/foo",
-    component: Foo
+    component: Loadable(() => import("../views/Foo"))
   },
   {
     path: "/top-list",
-    component: TopList,
+    component: Loadable(() => import("../containers/TopList")),
     exact: true
   },
   {
     path: "/top-list/:id",
-    component: TopDetail
+    component: Loadable(() => import("../containers/TopDetail"))
   }
 ];
 

@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -17,17 +18,28 @@ const webpackConfig = merge(baseWebpackConfig, {
     publicPath: "/dist/"  // 打包后输出路径以/dist/开头
   },
   module: {
-    rules: util.styleLoaders({
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        loader: ["babel-loader", "eslint-loader"],
+        exclude: /node_modules/
+      },
+      ...util.styleLoaders({
         sourceMap: isProd ? true : false,
         usePostCSS: true,
         extract: isProd ? true : false
       })
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.html"
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "manifest",
+      minChunks: Infinity
+    }),
   ]
 });
 
