@@ -37,9 +37,21 @@ const webpackConfig = merge(baseWebpackConfig, {
       template: "index.html"
     }),
     new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      minChunks: function(module) {
+        // 阻止.css文件资源打包到vendor chunk中
+        if(module.resource && /\.css$/.test(module.resource)) {
+          return false;
+        }
+        // node_modules目录下的模块打包到vendor chunk中
+        return module.context && module.context.includes('node_modules');
+      }
+    }),
+    // 分离webpack引导模块
+    new webpack.optimize.CommonsChunkPlugin({
       name: "manifest",
       minChunks: Infinity
-    }),
+    })
   ]
 });
 
