@@ -4,7 +4,7 @@ This is a react ssr demo. It base on react16.x and webpack3.x
 
 ## Instruction
 
-This is the second chapter of the code
+This is the third chapter of the code
 
 ## Available Scripts
 

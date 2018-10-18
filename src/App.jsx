@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { router, NestedRoute, StatusRoute } from "./router";
+import createStore from "./redux/store";
 import "./assets/app.css";
 
 class Root extends React.Component {
@@ -63,11 +64,17 @@ if (process.env.REACT_ENV === "server") {
   // 服务端导出Root组件
   App = Root;
 } else {
+  const Provider = require("react-redux").Provider;
+  // 获取服务端初始化的state，创建store
+  const initialState = window.__INITIAL_STATE__;
+  const store = createStore(initialState);
   App = () => {
     return (
-      <Router>
-        <Root />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Root />
+        </Router>
+      </Provider>
     );
   };
 }

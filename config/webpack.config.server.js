@@ -16,11 +16,43 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   target: "node",  // 指定node运行环境
   module: {
-    rules: util.styleLoaders({
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              babelrc: false,
+              presets: [
+                "react",
+                [
+                  "env",
+                  {
+                    "targets": {
+                      "node": "current"
+                    }
+                  }
+                ]
+              ],
+              "plugins": [
+                "dynamic-import-node",
+                "loadable-components/babel"
+              ]
+            }
+          },
+          {
+            loader: "eslint-loader"
+          }
+        ],
+        exclude: /node_modules/
+      },
+      ...util.styleLoaders({
         sourceMap: true,
         usePostCSS: true,
         extract: true
       })
+    ]
   },
   plugins: [
     new webpack.DefinePlugin({
