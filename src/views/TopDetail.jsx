@@ -7,13 +7,11 @@ class TopDetail extends React.Component {
     return store.dispatch(fetchTopDetail(params.id));
   }
   componentDidMount() {
-    if (process.env.REACT_ENV !== "server") {
-      const id = this.props.match.params.id;
-      if (this.props.clientShouldLoad === true) {
-        this.props.dispatch(fetchTopDetail(id));
-      } else {
-        this.props.dispatch(setClientLoad(true));
-      }
+    const id = this.props.match.params.id;
+    if (this.props.clientShouldLoad === true) {
+      this.props.dispatch(fetchTopDetail(id));
+    } else {
+      this.props.dispatch(setClientLoad(true));
     }
   }
   render() {
