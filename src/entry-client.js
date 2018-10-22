@@ -10,7 +10,7 @@ loadComponents().then(() => {
 
 // 热更新
 if (module.hot) {
-  module.hot.accept("./App.jsx", () => {
+  module.hot.accept("./App", () => {
     const NewApp = require("./App").default;
     ReactDOM.hydrate(<NewApp />, document.getElementById("app"));
   });
