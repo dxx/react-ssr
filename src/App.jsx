@@ -49,13 +49,8 @@ class Root extends React.Component {
             {/*<Route path="/bar" component={Bar} />
             <Route path="/baz" component={Baz} />
             <Route path="/foo" component={Foo} />
-            <Route from="/" to="/Bar" exact/>
-            <Redirect from="/" to="/bar"/>
-            <StatusRoute code={404}>
-              <div>
-                <h1>Not Found</h1>
-              </div>
-            </StatusRoute>
+            <Route path="/top-list" component={TopList} />
+            <Redirect from="/" to="/bar" exact />
             */}
           </Switch>
         </div>
