@@ -2,6 +2,8 @@
 
 This is a react ssr demo. It base on react16.x and webpack3.x
 
+> For webpack4.x see [here](https://github.com/code-mcx/react-ssr)
+
 Feture:
 
 1. Support HMR in development mode
