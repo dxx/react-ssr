@@ -1,8 +1,8 @@
 const path = require("path");
-const webpack = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const baseWebpackConfig = require("./webpack.config.base");
 const util = require("./util");
 
@@ -10,7 +10,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 const webpackConfig = merge(baseWebpackConfig, {
   entry: {
-    app: "./src/entry-client.js"
+    app: "./src/entry-client.tsx"
   },
   output: {
     path: path.resolve(__dirname, "../dist"),
@@ -20,8 +20,25 @@ const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        loader: ["babel-loader", "eslint-loader"],
+        test: /\.(ts|tsx)$/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              babelrc: false,
+              plugins: [
+                "loadable-components/babel"
+              ]
+            }
+          },
+          {
+            loader: "ts-loader",
+            options: {
+              // 支持HMR和禁用类型检查，类型检查将使用ForkTsCheckerWebpackPlugin
+              transpileOnly: true  
+            }
+          }
+        ],
         exclude: /node_modules/
       },
       ...util.styleLoaders({
@@ -31,33 +48,44 @@ const webpackConfig = merge(baseWebpackConfig, {
       })
     ]
   },
+  optimization: {
+    splitChunks: {
+      chunks: "all",  // chunk选择范围
+      cacheGroups: {
+        vendor: {
+          test: function(module) {
+            // 阻止.css文件资源打包到vendor chunk中
+            if(module.resource && /\.css$/.test(module.resource)) {
+              return false;
+            }
+            // node_modules目录下的模块打包到vendor chunk中
+            return module.context && module.context.includes("node_modules");
+          }
+        }
+      }
+    },
+    // webpack引导模块
+    runtimeChunk: {
+      name: "manifest"
+    }
+  },
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.html"
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
-      minChunks: function(module) {
-        // 阻止.css文件资源打包到vendor chunk中
-        if(module.resource && /\.css$/.test(module.resource)) {
-          return false;
-        }
-        // node_modules目录下的模块打包到vendor chunk中
-        return module.context && module.context.includes("node_modules");
-      }
-    }),
-    // 分离webpack引导模块
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "manifest",
-      minChunks: Infinity
+    // 在单独的进程中执行类型检查加快编译速度
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      tsconfig: path.resolve(__dirname, "../tsconfig.json"),
+      tslint: path.resolve(__dirname, "../tslint.json")
     })
   ]
 });
 
 if (isProd) {
   webpackConfig.plugins.push(
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash].css"
     })
   );

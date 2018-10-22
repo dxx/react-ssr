@@ -1,9 +1,0 @@
-{
-  "presets": [
-    ["env", { "modules": false }],
-    "react"
-  ],
-  "plugins": [
-    "loadable-components/babel"
-  ]
-}

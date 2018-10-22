@@ -16,7 +16,7 @@ export function setTopDetail(topDetail) {
 export function fatchTopList() {
   // dispatch由thunkMiddleware传入
   return (dispatch, getState) => {
-    return getTopList().then(response => {
+    return getTopList().then((response) => {
       const data = response.data;
       if (data.code === 0) {
         // 获取数据后dispatch，存入store
@@ -31,7 +31,7 @@ export function fatchTopList() {
 
 export function fetchTopDetail(id) {
   return (dispatch, getState) => {
-    return getTopDetail(id).then(response => {
+    return getTopDetail(id).then((response) => {
       const data = response.data;
       if (data.code === 0) {
         const topinfo = data.topinfo;

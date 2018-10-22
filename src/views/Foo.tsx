@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from "react";
 import { Helmet } from "react-helmet";
 
 class Foo extends React.Component {
-  render() {
+  public render() {
     return (
       <div>
         <Helmet>

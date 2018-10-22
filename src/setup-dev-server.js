@@ -30,7 +30,7 @@ module.exports = function setupDevServer(app, callback) {
 
   const devMiddleware = require("webpack-dev-middleware")(clientCompiler, {
     publicPath: clientConfig.output.publicPath,
-    noInfo: true
+    logLevel: "warn"
   });
   // 使用webpack-dev-middleware中间件服务webpack打包后的资源文件
   app.use(devMiddleware);

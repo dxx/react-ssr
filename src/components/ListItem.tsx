@@ -1,7 +1,12 @@
-import React from "react";
+import * as React from "react";
 
-class ListItem extends React.Component {
-  render() {
+interface ListItemProps {
+  topTitle: string;
+  picUrl: string;
+}
+
+class ListItem extends React.Component<ListItemProps> {
+  public render() {
     const {topTitle, picUrl} = this.props;
     return (
       <div>

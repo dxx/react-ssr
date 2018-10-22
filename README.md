@@ -1,6 +1,6 @@
 ## React SSR
 
-This is a react ssr demo. It base on react16.x and webpack3.x
+This is a react ssr demo written by typescript. It base on react16.x and webpack4.x
 
 Feture:
 

@@ -7,30 +7,30 @@ const initialState = {
   topDetail: {}
 }
 
-function clientShouldLoad(clientShouldLoad = initialState.clientShouldLoad, action) {
+function clientShouldLoad(shouldLoad = initialState.clientShouldLoad, action) {
   switch (action.type) {
     case ActionTypes.SET_CLIENT_LOAD:
       return action.clientShouldLoad;
     default:
-      return clientShouldLoad;
+      return shouldLoad;
   }
 }
 
-function topList(topList = initialState.topList, action) {
+function topList(list = initialState.topList, action) {
   switch (action.type) {
     case ActionTypes.SET_TOP_LIST:
       return action.topList;
     default:
-      return topList;
+      return list;
   }
 }
 
-function topDetail(topDetail = initialState.topDetail, action) {
+function topDetail(detail = initialState.topDetail, action) {
   switch (action.type) {
     case ActionTypes.SET_TOP_DETAIL:
       return action.topDetail;
     default:
-      return topDetail;
+      return detail;
   }
 }
 
