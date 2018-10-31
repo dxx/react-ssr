@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const nodeExternals = require("webpack-node-externals");
 const baseWebpackConfig = require("./webpack.config.base");
 const util = require("./util");
 
@@ -15,6 +16,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     libraryTarget: "commonjs2"  // 打包成commonjs2规范
   },
   target: "node",  // 指定node运行环境
+  externals: [nodeExternals()],  // 不绑定node模块，保留为 require()
   module: {
     rules: [
       {
