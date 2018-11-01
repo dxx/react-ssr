@@ -18,7 +18,7 @@ const createApp = (context, url, store) => {
   return <App />;
 }
 
-module.exports = {
+export {
   createApp,
   createStore,
   router
