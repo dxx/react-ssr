@@ -11,19 +11,7 @@ import { router, NestedRoute, StatusRoute} from "./router";
 import createStore from "./redux/store";
 import "./assets/app.css";
 
-interface RootProps {
-  setHead?: (arg: any) => any;
-}
-
-class Root extends React.Component<RootProps> {
-  constructor(props) {
-    super(props);
-
-    if (process.env.REACT_ENV === "server") {
-      // 当前如果是服务端渲染时将Helmet设置给外层组件的head属性中
-      this.props.setHead(Helmet);
-    }
-  }
+class Root extends React.Component {
   public render() {
     return (
       <div>
