@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const ReactDOMServer = require("react-dom/server");
+const { Helmet } = require("react-helmet");
 const { matchRoutes } = require("react-router-config");
 const { getLoadableState } = require("loadable-components/server");
 const app = express();
@@ -73,9 +74,9 @@ const render = (req, res) => {
         return;
       }
 
-      if (!context.status) {  // 无status字段表示路由匹配成功
-        // 获取组件内的head对象，必须在组件renderToString后获取
-        let head = component.type.head.renderStatic();
+      if (!context.statusCode) {  // 无statusCode字段表示路由匹配成功
+        // 必须在组件renderToString后获取
+        let head = Helmet.renderStatic();
         // 替换注释节点为渲染后的html字符串
         let htmlStr = template
         .replace(/<title>.*<\/title>/, `${head.title.toString()}`)
@@ -88,7 +89,7 @@ const render = (req, res) => {
         // 将渲染后的html字符串发送给客户端
         res.send(htmlStr);
       } else {
-        res.status(context.status).send("error code：" + context.status);
+        res.status(context.statusCode).send("error code：" + context.statusCode);
       }
     }
   });

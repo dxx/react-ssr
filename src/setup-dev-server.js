@@ -72,10 +72,7 @@ module.exports = function setupDevServer(app, callback) {
 
     // 读取打包后的内容并编译模块
     const bundle = readFile(mfs, "entry-server.js");
-    // const m = new module.constructor();
-    // m._compile(bundle, "entry-server.js");
-    // serverEntry = m.exports;
-
+    
     const vm = require("vm");
     const sandbox = {
       module: module,

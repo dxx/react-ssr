@@ -11,14 +11,6 @@ import createStore from "./redux/store";
 import "./assets/app.css";
 
 class Root extends React.Component {
-  constructor(props) {
-    super(props);
-
-    if (process.env.REACT_ENV === "server") {
-      // 当前如果是服务端渲染时将Helmet设置给外层组件的head属性中
-      this.props.setHead(Helmet);
-    }
-  }
   render() {
     return (
       <div>

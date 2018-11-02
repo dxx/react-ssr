@@ -10,7 +10,7 @@ const createApp = (context, url, store) => {
     return (
       <Provider store={store}>
         <StaticRouter context={context} location={url}>
-          <Root setHead={(head) => App.head = head}/>  
+          <Root />  
         </StaticRouter>
       </Provider>
     )
