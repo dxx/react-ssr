@@ -1,6 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
-const MFS = require('memory-fs');
+const MFS = require("memory-fs");
 const clientConfig = require("../config/webpack.config.client");
 const serverConfig = require("../config/webpack.config.server");
 
@@ -36,7 +36,7 @@ module.exports = function setupDevServer(app, callback) {
   app.use(devMiddleware);
 
   /* eslint-disable no-console */
-  clientCompiler.plugin("done", stats => {
+  clientCompiler.hooks.done.tapAsync("done", stats => {
     const info = stats.toJson();
     if (stats.hasWarnings()) {
       console.warn(info.warnings);
