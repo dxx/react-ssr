@@ -1,6 +1,7 @@
 const path = require("path");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const baseWebpackConfig = require("./webpack.config.base");
@@ -73,6 +74,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.html"
+    }),
+    new PreloadWebpackPlugin({
+      rel: "preload",  // 提前加载
+      include: "initial"  // 初始chunk
     }),
     // 在单独的进程中执行类型检查加快编译速度
     new ForkTsCheckerWebpackPlugin({
