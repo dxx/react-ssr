@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const baseWebpackConfig = require("./webpack.config.base");
 const util = require("./util");
@@ -35,6 +36,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.html"
+    }),
+    new PreloadWebpackPlugin({
+      rel: "preload",  // 提前加载
+      include: "initial"  // 初始chunk
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
