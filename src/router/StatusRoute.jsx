@@ -6,7 +6,7 @@ const StatusRoute = (props) => (
     // 客户端无staticContext对象
     if (staticContext) {
       // 设置状态码
-      staticContext.status = props.code;
+      staticContext.statusCode = props.code;
     }
     return props.children;
   }} />

@@ -4,6 +4,7 @@ const merge = require("webpack-merge");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const baseWebpackConfig = require("./webpack.config.base");
+const SSRServerPlugin = require("../plugin/webpack/server-plugin");
 const util = require("./util");
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -63,6 +64,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // 服务端不支持window document等对象，需将css外链
     new ExtractTextPlugin({
       filename: "static/css/[name].[contenthash].css"
+    }),
+    new SSRServerPlugin({
+      filename: "server-bundle.json"
     })
   ]
 });
