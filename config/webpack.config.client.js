@@ -5,6 +5,7 @@ const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const baseWebpackConfig = require("./webpack.config.base");
+const SSRClientPlugin = require("../plugin/webpack/client-plugin");
 const util = require("./util");
 
 const isProd = process.env.NODE_ENV === "production";
@@ -28,7 +29,8 @@ const webpackConfig = merge(baseWebpackConfig, {
             options: {
               babelrc: false,
               plugins: [
-                "loadable-components/babel"
+                "syntax-dynamic-import",
+                "react-loadable/babel"
               ]
             }
           },
@@ -84,6 +86,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       async: false,
       tsconfig: path.resolve(__dirname, "../tsconfig.json"),
       tslint: path.resolve(__dirname, "../tslint.json")
+    }),
+    new SSRClientPlugin({
+      filename: "client-manifest.json",
     })
   ]
 });

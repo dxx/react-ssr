@@ -13,9 +13,6 @@ interface TopListProps {
 }
 
 class TopList extends React.Component<TopListProps> {
-  public static asyncData(store) {
-    return store.dispatch(fatchTopList());
-  }
   public componentDidMount() {
     // 判断是否需要加载数据
     if (this.props.clientShouldLoad === true) {

@@ -5,13 +5,13 @@ const clientConfig = require("../config/webpack.config.client");
 const serverConfig = require("../config/webpack.config.server");
 
 module.exports = function setupDevServer(app, callback) {
-  let serverEntry;
-  let template;
+  let bundle;
+  let template, clientManifest;
   let resolve;
   const readyPromise = new Promise(r => { resolve = r });
   const update = () => {
-    if (serverEntry && template) {
-      callback(serverEntry, template);
+    if (bundle && clientManifest) {
+      callback(bundle, template, clientManifest);
       resolve(); // resolve Promise让服务端进行render
     }
   }
@@ -36,7 +36,7 @@ module.exports = function setupDevServer(app, callback) {
   app.use(devMiddleware);
 
   /* eslint-disable no-console */
-  clientCompiler.hooks.done.tapAsync("done", stats => {
+  clientCompiler.plugin("done", stats => {
     const info = stats.toJson();
     if (stats.hasWarnings()) {
       console.warn(info.warnings);
@@ -48,6 +48,7 @@ module.exports = function setupDevServer(app, callback) {
     }
     // 从webpack-dev-middleware中间件存储的内存中读取打包后的inddex.html文件模板
     template = readFile(devMiddleware.fileSystem, "index.html");
+    clientManifest = JSON.parse(readFile(devMiddleware.fileSystem, "client-manifest.json"));
     update();
   });
 
@@ -70,15 +71,7 @@ module.exports = function setupDevServer(app, callback) {
       return;
     }
 
-    // 读取打包后的内容并编译模块
-    const bundle = readFile(mfs, "entry-server.js");
-    const vm = require("vm");
-    const sandbox = {
-      module: module,
-      require: require
-    };
-    vm.runInNewContext(bundle, sandbox);
-    serverEntry = sandbox.module.exports;
+    bundle = JSON.parse(readFile(mfs, "server-bundle.json"));
     update();
   });
 

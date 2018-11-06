@@ -4,6 +4,8 @@
     "exclude": [
       "node_modules/**/*.ts",
       "config/**/*.js",
+      "plugin/**/*.js",
+      "server/**/*.js",
       "dist/**/*.js",
       "src/**/*.js"
     ]

@@ -10,9 +10,6 @@ interface TopDetailProps {
 }
 
 class TopDetail extends React.Component<TopDetailProps> {
-  public static asyncData(store, params) {
-    return store.dispatch(fetchTopDetail(params.id));
-  }
   public componentDidMount() {
     const id = this.props.match.params.id;
     if (this.props.clientShouldLoad === true) {
