@@ -37,7 +37,7 @@ class ServerRenderer {
 
         if (context.url) {  // 当发生重定向时，静态路由会设置url
           resolve({
-            error: {url}
+            error: {url: context.url}
           });
           return;
         }

@@ -19,9 +19,9 @@ if (isProd) {
 } else {
   readyPromise = require("./dev-server")(app, (
     bundle,
-    htmlTemplate,
+    template,
     clientManifest) => {
-      renderer = new ServerRenderer(bundle, htmlTemplate, clientManifest);
+      renderer = new ServerRenderer(bundle, template, clientManifest);
   });
 }
 
