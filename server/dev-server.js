@@ -36,7 +36,7 @@ module.exports = function setupDevServer(app, callback) {
   app.use(devMiddleware);
 
   /* eslint-disable no-console */
-  clientCompiler.plugin("done", stats => {
+  clientCompiler.hooks.done.tap("done", stats => {
     const info = stats.toJson();
     if (stats.hasWarnings()) {
       console.warn(info.warnings);
