@@ -71,7 +71,6 @@ module.exports = function setupDevServer(app, callback) {
     }
 
     bundle = JSON.parse(readFile(mfs, "server-bundle.json"));
-    
     update();
   });
 
