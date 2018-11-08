@@ -7,14 +7,13 @@ const { getBundles } = require("../plugin/webpack");
 
 class ServerRenderer {
   constructor(bundle, template, manifest) {
-    this.bundle = bundle;
     this.template = template;
     this.manifest = manifest;
+    this.serverEntry = this._createEntry(bundle);
   }
   renderToString(request) {
     return new Promise((resolve, reject) => {
-
-      const serverEntry = this._createEntry();
+      const serverEntry = this.serverEntry;
 
       const createApp = serverEntry.createApp;
       const createStore = serverEntry.createStore;
@@ -76,8 +75,8 @@ class ServerRenderer {
       });
     });
   }
-  _createEntry() {
-    const file = this.bundle.files[this.bundle.entry];
+  _createEntry(bundle) {
+    const file = bundle.files[bundle.entry];
 
     // 读取内容并编译模块
     const vm = require("vm");
