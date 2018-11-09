@@ -81,8 +81,9 @@ class ServerRenderer {
     // 读取内容并编译模块
     const vm = require("vm");
     const sandbox = {
-      module: module,
-      require: require
+      console,
+      module,
+      require
     };
     vm.runInNewContext(file, sandbox);
 
