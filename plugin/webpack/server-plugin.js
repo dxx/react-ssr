@@ -11,6 +11,13 @@ module.exports = class SSRServerPlugin {
 
     onEmit(compiler, "ssr-server-plugin" , (compilation, callback) => {
       const stats = compilation.getStats().toJson();
+
+      if(Object.keys(stats.entrypoints).length > 1) {
+        throw new Error(
+          "Server-side bundle should have one single entry file. "
+        );
+      }
+
       const entryName = Object.keys(stats.entrypoints)[0];
       const entryInfo = stats.entrypoints[entryName];
 
@@ -19,13 +26,6 @@ module.exports = class SSRServerPlugin {
       }
 
       const entryAssets = entryInfo.assets.filter(isJS);
-
-      if (entryAssets.length > 1) {
-        throw new Error(
-          `Server-side bundle should have one single entry file. `
-        )
-      }
-
       const entry = entryAssets[0];
 
       const bundle = {
@@ -43,6 +43,13 @@ module.exports = class SSRServerPlugin {
         // do not emit anything else for server
         delete compilation.assets[asset.name];
       })
+
+      if (Object.keys(bundle.files).length > 1) {
+        throw new Error(
+          "Server-side bundle should output one single file. " +
+          "If you are using code splitting, you should use `dynamic-import-node` babel plugin. "
+        );
+      }
 
       const json = JSON.stringify(bundle, null, 2)
       const filename = this.options.filename
