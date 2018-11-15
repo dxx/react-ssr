@@ -2,8 +2,7 @@ const React = require("react");
 const ReactDOMServer = require("react-dom/server");
 const { matchRoutes } = require("react-router-config");
 const { Helmet } = require("react-helmet");
-const Loadable = require("react-loadable");
-const { getBundles } = require("../plugin/webpack");
+const { ChunkExtractor, ChunkExtractorManager } = require("@loadable/server");
 
 class ServerRenderer {
   constructor(bundle, template, manifest) {
@@ -26,11 +25,14 @@ class ServerRenderer {
         let context = {};
 
         let component = createApp(context, request.url, store);
-        let modules = [];
+        let extractor = new ChunkExtractor({ 
+          stats: this.manifest, 
+          entrypoints: ["app"]  // 入口entry
+        });
         let root = ReactDOMServer.renderToString(
           React.createElement(
-            Loadable.Capture,
-            { report: moduleName => modules.push(moduleName) },
+            ChunkExtractorManager,
+            { extractor },
             component)
         );
 
@@ -49,29 +51,26 @@ class ServerRenderer {
           // store.getState() 获取预加载的state，供客户端初始化
           resolve({
             error: undefined, 
-            html: this._generateHTML(root, modules, store.getState())
+            html: this._generateHTML(root, extractor, store.getState())
           });
         }
       }
 
-      // 预先加载所有异步组件
-      Loadable.preloadAll().then(() => {
-        let promises;
-        // 匹配路由
-        let matchs = matchRoutes(router, request.path);
-        promises = matchs.map(({ route, match }) => {
-          const asyncData = route.asyncData;
-          // match.params获取匹配的路由参数
-          return asyncData ? asyncData(store, Object.assign(match.params, request.query)) : Promise.resolve(null);
-        });
+      let promises;
+      // 匹配路由
+      let matchs = matchRoutes(router, request.path);
+      promises = matchs.map(({ route, match }) => {
+        const asyncData = route.asyncData;
+        // match.params获取匹配的路由参数
+        return asyncData ? asyncData(store, Object.assign(match.params, request.query)) : Promise.resolve(null);
+      });
 
-        // resolve所有asyncData
-        Promise.all(promises).then(() => {
-          // 异步数据请求完成后进行render
-          render();
-        }).catch(error => {
-          reject(error);
-        });
+      // resolve所有asyncData
+      Promise.all(promises).then(() => {
+        // 异步数据请求完成后进行render
+        render();
+      }).catch(error => {
+        reject(error);
       });
     });
   }
@@ -89,33 +88,19 @@ class ServerRenderer {
 
     return sandbox.module.exports;
   }
-  _generateHTML(root, modules, initalState) {
-    let bundles = getBundles(this.manifest, [...new Set(modules)]);
-
-    let styles = bundles.filter(bundle => bundle.file.endsWith(".css"));
-    let scripts = bundles.filter(bundle => bundle.file.endsWith(".js"));
-
-    let cssBundles = styles.map(style => {
-      return `<link rel="stylesheet" type="text/css" href="${style.publicPath}" />`
-    }).join('\n');
-
-    let jsBundles = scripts.map(script => {
-      return `<script type="text/javascript" src="${script.publicPath}"></script>`
-    }).join('\n');
-
+  _generateHTML(root, extractor, initalState) {
     // 必须在组件renderToString后获取
     let head = Helmet.renderStatic();
     // 替换注释节点为渲染后的html字符串
     return this.template
     .replace(/<title>.*<\/title>/, `${head.title.toString()}`)
-    .replace("<!--react-ssr-head-->", `${head.meta.toString()}\n${head.link.toString()}
+    .replace("<!--react-ssr-head-->", 
+    `${head.meta.toString()}\n${head.link.toString()}\n${extractor.getLinkTags()}\n${extractor.getStyleTags()}
     <script type="text/javascript">
       window.__INITIAL_STATE__ = ${JSON.stringify(initalState)}
     </script>
     `)
-    .replace("</head>", `${cssBundles}</head>`)
-    .replace("<!--react-ssr-outlet-->", `<div id='app'>${root}</div>`)
-    .replace("</body>", `${jsBundles}<script>window.hydrate();</script></body>`);
+    .replace("<!--react-ssr-outlet-->", `<div id='app'>${root}</div>\n${extractor.getScriptTags()}`)
   }
 }
 

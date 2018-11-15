@@ -6,12 +6,12 @@ const serverConfig = require("../config/webpack.config.server");
 
 module.exports = function setupDevServer(app, callback) {
   let bundle;
-  let template, clientManifest;
+  let clientManifest;
   let resolve;
   const readyPromise = new Promise(r => { resolve = r });
   const update = () => {
     if (bundle && clientManifest) {
-      callback(bundle, template, clientManifest);
+      callback(bundle, clientManifest);
       resolve(); // resolve Promise让服务端进行render
     }
   }
@@ -46,8 +46,7 @@ module.exports = function setupDevServer(app, callback) {
       console.error(info.errors);
       return;
     }
-    // 从webpack-dev-middleware中间件存储的内存中读取打包后的inddex.html文件模板
-    template = readFile(devMiddleware.fileSystem, "index.html");
+    // 从webpack-dev-middleware中间件存储的内存中读取打包后的文件
     clientManifest = JSON.parse(readFile(devMiddleware.fileSystem, "client-manifest.json"));
     update();
   });

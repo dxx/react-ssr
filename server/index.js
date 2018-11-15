@@ -8,18 +8,17 @@ const isProd = process.env.NODE_ENV === "production";
 
 let renderer;
 let readyPromise;
+let template = fs.readFileSync("./index.html", "utf-8");
 if (isProd) {
   // 静态资源映射到dist路径下
   app.use("/dist", express.static(path.join(__dirname, "../dist")));
 
   let bundle = require("../dist/server-bundle.json");
-  let clientManifest = require("../dist/client-manifest.json");
-  let template = fs.readFileSync("./dist/index.html", "utf-8");
+  let clientManifest = require("../dist/client-manifest.json"); 
   renderer = new ServerRenderer(bundle, template, clientManifest);
 } else {
   readyPromise = require("./dev-server")(app, (
     bundle,
-    template,
     clientManifest) => {
       renderer = new ServerRenderer(bundle, template, clientManifest);
   });

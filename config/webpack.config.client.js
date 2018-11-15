@@ -1,11 +1,9 @@
 const path = require("path");
 const merge = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const LoadablePlugin = require("@loadable/webpack-plugin");
 const baseWebpackConfig = require("./webpack.config.base");
-const SSRClientPlugin = require("../plugin/webpack/client-plugin");
 const util = require("./util");
 
 const isProd = process.env.NODE_ENV === "production";
@@ -29,8 +27,7 @@ const webpackConfig = merge(baseWebpackConfig, {
             options: {
               babelrc: false,
               plugins: [
-                "syntax-dynamic-import",
-                "react-loadable/babel"
+                "@loadable/babel-plugin"
               ]
             }
           },
@@ -73,21 +70,13 @@ const webpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: "index.html"
-    }),
-    new PreloadWebpackPlugin({
-      rel: "preload",  // 提前加载
-      include: "initial"  // 初始chunk
-    }),
     // 在单独的进程中执行类型检查加快编译速度
     new ForkTsCheckerWebpackPlugin({
       async: false,
       tsconfig: path.resolve(__dirname, "../tsconfig.json"),
       tslint: path.resolve(__dirname, "../tslint.json")
     }),
-    new SSRClientPlugin({
+    new LoadablePlugin({
       filename: "client-manifest.json",
     })
   ]

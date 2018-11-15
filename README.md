@@ -2,7 +2,7 @@
 
 This is a react ssr demo written by typescript. It base on react16.x and webpack4.x
 
-Feture:
+Fetures:
 
 1. Support HMR in development mode
 2. Code Splitting base on route

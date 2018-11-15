@@ -29,7 +29,7 @@ const webpackConfig = merge(baseWebpackConfig, {
               babelrc: false,
               plugins: [
                 "dynamic-import-node",
-                "react-loadable/babel"
+                "@loadable/babel-plugin"
               ]
             }
           },

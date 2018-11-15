@@ -2,7 +2,7 @@ import NestedRoute from "./NestedRoute";
 import StatusRoute from "./StatusRoute";
 import { fatchTopList, fetchTopDetail } from "../redux/actions";
 
-import Loadable from "react-loadable";
+import loadable from "@loadable/component";
 
 // import Bar from "../views/Bar";
 // import Baz from "../views/Baz";
@@ -10,36 +10,22 @@ import Loadable from "react-loadable";
 // import TopList from "../containers/TopList";
 // import TopDetail from "../containers/TopDetail";
 
-const loading = () => null;
-
 const router = [
   {
     path: "/bar",
-    component: Loadable({
-      loader: () => import("../views/Bar"),
-      loading
-    })
+    component: loadable(() => import("../views/Bar"))
   },
   {
     path: "/baz",
-    component: Loadable({
-      loader: () => import("../views/Baz"),
-      loading
-    })
+    component: loadable( () => import("../views/Baz"))
   },
   {
     path: "/foo",
-    component: Loadable({
-      loader: () => import("../views/Foo"),
-      loading
-    })
+    component: loadable(() => import("../views/Foo"))
   },
   {
     path: "/top-list",
-    component: Loadable({
-      loader: () => import("../containers/TopList"),
-      loading
-    }),
+    component: loadable(() => import("../containers/TopList")),
     exact: true,
     asyncData(store) {
       return store.dispatch(fatchTopList());
@@ -47,10 +33,7 @@ const router = [
   },
   {
     path: "/top-list/:id",
-    component: Loadable({
-      loader: () => import("../containers/TopDetail"),
-      loading
-    }),
+    component: loadable(() => import("../containers/TopDetail")),
     asyncData(store, params) {
       return store.dispatch(fetchTopDetail(params.id));
     }
