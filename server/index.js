@@ -26,7 +26,6 @@ if (isProd) {
 
 app.use("/public", express.static(path.join(__dirname, "../public")));
 
-/* eslint-disable no-console */
 const render = (req, res) => {
   console.log("======enter server======");
   console.log("visit url: " + req.url);
@@ -48,7 +47,7 @@ const render = (req, res) => {
 
 app.get("*", isProd ? render : (req, res) => {
   // 等待客户端和服务端打包完成后进行render
-	readyPromise.then(() => render(req, res));
+  readyPromise.then(() => render(req, res));
 });
 
 app.listen(3000, () => {

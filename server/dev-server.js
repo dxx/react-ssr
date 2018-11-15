@@ -35,7 +35,6 @@ module.exports = function setupDevServer(app, callback) {
   // 使用webpack-dev-middleware中间件服务webpack打包后的资源文件
   app.use(devMiddleware);
 
-  /* eslint-disable no-console */
   clientCompiler.hooks.done.tap("done", stats => {
     const info = stats.toJson();
     if (stats.hasWarnings()) {
