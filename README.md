@@ -2,9 +2,9 @@
 
 This is a react ssr demo. It base on react16.x and webpack3.x
 
-> For webpack4.x see [here](https://github.com/code-mcx/react-ssr)
+> For webpack4.x look at [here](https://github.com/code-mcx/react-ssr/tree/webpack4.x)
 
-Feture:
+Fetures:
 
 1. Support HMR in development mode
 2. Code Splitting base on route
