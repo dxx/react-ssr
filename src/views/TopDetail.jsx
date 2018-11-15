@@ -3,9 +3,6 @@ import { Helmet } from "react-helmet";
 import { setClientLoad, fetchTopDetail } from "../redux/actions";
 
 class TopDetail extends React.Component {
-  static asyncData(store, params) {
-    return store.dispatch(fetchTopDetail(params.id));
-  }
   componentDidMount() {
     const id = this.props.match.params.id;
     if (this.props.clientShouldLoad === true) {

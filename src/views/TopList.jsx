@@ -6,9 +6,6 @@ import ListItem from "../components/ListItem";
 import "../assets/top-list.styl";
 
 class TopList extends React.Component {
-  static asyncData(store) {
-    return store.dispatch(fatchTopList());
-  }
   componentDidMount() {
     // 判断是否需要加载数据
     if (this.props.clientShouldLoad === true) {

@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require("autoprefixer");
 
 const cssLoaders = function(options) {
@@ -7,8 +7,7 @@ const cssLoaders = function(options) {
   const cssLoader = {
     loader: "css-loader",
     options: {
-      sourceMap: options.sourceMap,
-      minimize: process.env.NODE_ENV === "production" ? true : false
+      sourceMap: options.sourceMap
     }
   }
 
@@ -47,10 +46,7 @@ const cssLoaders = function(options) {
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        fallback: "style-loader"
-      });
+      return [MiniCssExtractPlugin.loader].concat(loaders);
     } else {
       return ["style-loader"].concat(loaders);
     }

@@ -6,12 +6,12 @@ const serverConfig = require("../config/webpack.config.server");
 
 module.exports = function setupDevServer(app, callback) {
   let bundle;
-  let template;
+  let loadableStats;
   let resolve;
   const readyPromise = new Promise(r => { resolve = r });
   const update = () => {
-    if (bundle && template) {
-      callback(bundle, template);
+    if (bundle && loadableStats) {
+      callback(bundle, loadableStats);
       resolve(); // resolve Promise让服务端进行render
     }
   }
@@ -30,13 +30,13 @@ module.exports = function setupDevServer(app, callback) {
 
   const devMiddleware = require("webpack-dev-middleware")(clientCompiler, {
     publicPath: clientConfig.output.publicPath,
-    noInfo: true
+    logLevel: "warn"
   });
   // 使用webpack-dev-middleware中间件服务webpack打包后的资源文件
   app.use(devMiddleware);
 
   /* eslint-disable no-console */
-  clientCompiler.plugin("done", stats => {
+  clientCompiler.hooks.done.tap("done", stats => {
     const info = stats.toJson();
     if (stats.hasWarnings()) {
       console.warn(info.warnings);
@@ -46,8 +46,7 @@ module.exports = function setupDevServer(app, callback) {
       console.error(info.errors);
       return;
     }
-    // 从webpack-dev-middleware中间件存储的内存中读取打包后的inddex.html文件模板
-    template = readFile(devMiddleware.fileSystem, "index.html");
+    loadableStats = JSON.parse(readFile(devMiddleware.fileSystem, "loadable-stats.json"));
     update();
   });
 
