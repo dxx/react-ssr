@@ -91,7 +91,7 @@ class ServerRenderer {
       window.__INITIAL_STATE__ = ${JSON.stringify(initalState)}
     </script>
     `)
-    .replace("<!--react-ssr-outlet-->", `<div id='app'>${root}</div>\n${scriptTag}`)
+    .replace("<!--react-ssr-outlet-->", `<div id='app'>${root}</div>\n${scriptTag}`);
   }
 }
 
