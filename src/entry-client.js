@@ -19,7 +19,7 @@ const createApp = (Component) => {
       </Provider>
     );
   };
-  return <App />
+  return <App />;
 }
 
 // 开始渲染之前加载所需的组件
