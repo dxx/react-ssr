@@ -1,17 +1,14 @@
 import * as React from "react";
 import {
-  BrowserRouter as Router,
   Switch,
   Redirect,
   NavLink
 } from "react-router-dom";
-import { Provider } from "react-redux";
 import { Helmet } from "react-helmet";
 import { router, NestedRoute, StatusRoute} from "./router";
-import createStore from "./redux/store";
 import "./assets/app.css";
 
-class Root extends React.Component {
+class App extends React.Component {
   public render() {
     return (
       <div>
@@ -52,22 +49,4 @@ class Root extends React.Component {
   }
 }
 
-let App;
-if (process.env.REACT_ENV === "server") {
-  // 服务端导出Root组件
-  App = Root;
-} else {
-  // 获取服务端初始化的state，创建store
-  const initialState = (window as any).__INITIAL_STATE__;
-  const store = createStore(initialState);
-  App = () => {
-    return (
-      <Provider store={store}>
-        <Router>
-          <Root />
-        </Router>
-      </Provider>
-    );
-  };
-}
 export default App;
