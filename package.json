@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/core": "^7.1.6",
     "@loadable/component": "^5.1.2",
-    "@loadable/server": "^5.1.1",
+    "@loadable/server": "^5.1.3",
     "axios": "^0.18.0",
     "babel-loader": "^8.0.4",
     "express": "^4.16.3",
