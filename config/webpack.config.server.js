@@ -1,4 +1,3 @@
-const path = require("path");
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -12,7 +11,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     app: "./src/entry-server.tsx"
   },
   output: {
-    path: path.resolve(__dirname, "../dist"),
     filename: "entry-server.js",
     libraryTarget: "commonjs2"  // 打包成commonjs2规范
   },
