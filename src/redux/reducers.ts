@@ -7,37 +7,37 @@ const initialState = {
   topDetail: {}
 }
 
-function clientShouldLoad(shouldLoad = initialState.clientShouldLoad, action) {
+function combineClientShouldLoad(clientShouldLoad = initialState.clientShouldLoad, action) {
   switch (action.type) {
     case ActionTypes.SET_CLIENT_LOAD:
       return action.clientShouldLoad;
     default:
-      return shouldLoad;
+      return clientShouldLoad;
   }
 }
 
-function topList(list = initialState.topList, action) {
+function combineTopList(topList = initialState.topList, action) {
   switch (action.type) {
     case ActionTypes.SET_TOP_LIST:
       return action.topList;
     default:
-      return list;
+      return topList;
   }
 }
 
-function topDetail(detail = initialState.topDetail, action) {
+function combineTopDetail(topDetail = initialState.topDetail, action) {
   switch (action.type) {
     case ActionTypes.SET_TOP_DETAIL:
       return action.topDetail;
     default:
-      return detail;
+      return topDetail;
   }
 }
 
 const reducer = combineReducers({
-  clientShouldLoad,
-  topList,
-  topDetail
+  clientShouldLoad: combineClientShouldLoad,
+  topList: combineTopList,
+  topDetail: combineTopDetail
 });
 
 export default reducer;
