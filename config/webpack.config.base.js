@@ -12,6 +12,10 @@ if (process.env.NODE_ENV === "production") {
 const baseWebpackConfig = {
   mode: isProd ? "production" : "development",
   devtool: isProd ? "#source-map" : "#cheap-module-source-map",
+  output: {
+    path: path.resolve(__dirname, "../dist"),
+    publicPath: "/dist/"  // 打包后输出路径以/dist/开头
+  },
   resolve: {
     extensions: [".js", ".jsx", ".json"]
   },

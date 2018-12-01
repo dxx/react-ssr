@@ -1,4 +1,3 @@
-const path = require("path");
 const merge = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require("@loadable/webpack-plugin");
@@ -12,9 +11,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     app: "./src/entry-client.js"
   },
   output: {
-    path: path.resolve(__dirname, "../dist"),
-    filename: "static/js/[name].[chunkhash].js",
-    publicPath: "/dist/"  // 打包后输出路径以/dist/开头
+    filename: "static/js/[name].[chunkhash].js"
   },
   module: {
     rules: [
