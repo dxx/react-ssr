@@ -6,8 +6,13 @@ const cssLoaders = function(options) {
 
   const cssLoader = {
     loader: "css-loader",
-    options: {
+    options: !options.modules ? {
       sourceMap: options.sourceMap
+    } : {
+      sourceMap: options.sourceMap,
+      camelCase: true,
+      modules: true,
+      localIdentName: "[name]_[local]-[hash:base64:5]"
     }
   }
 
@@ -67,11 +72,23 @@ module.exports.styleLoaders = function (options) {
   const output = [];
   const loaders = cssLoaders(options);
 
+  options.modules = true;
+  const cssModuleLoaders = cssLoaders(options);
+  
   for (const extension in loaders) {
     const loader = loaders[extension];
+    const cssModuleLoader = cssModuleLoaders[extension];
     output.push({
       test: new RegExp("\\." + extension + "$"),
-      use: loader
+      oneOf: [
+        {
+          resourceQuery: /css-modules/,
+          use: cssModuleLoader,
+        },
+        {
+          use: loader
+        }
+      ]
     });
   }
 
