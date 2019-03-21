@@ -24,6 +24,14 @@ const webpackConfig = merge(baseWebpackConfig, {
             loader: "babel-loader",
             options: {
               babelrc: false,
+              presets: [
+                [
+                  "@babel/preset-env",
+                  {
+                    "modules": false
+                  }
+                ]
+              ],
               plugins: [
                 "@loadable/babel-plugin"
               ]

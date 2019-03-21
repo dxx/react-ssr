@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.4.1",
     "@loadable/babel-plugin": "^5.0.1",
     "@loadable/webpack-plugin": "^5.0.2",
     "@types/react": "^16.4.18",
