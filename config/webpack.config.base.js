@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
