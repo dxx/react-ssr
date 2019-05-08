@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const nodeExternals = require("webpack-node-externals");
 const baseWebpackConfig = require("./webpack.config.base");
 const SSRServerPlugin = require("../plugin/webpack/server-plugin");
+const babelConfig = require("../.babelrc");
 const util = require("./util");
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -29,20 +30,10 @@ const webpackConfig = merge(baseWebpackConfig, {
             loader: "babel-loader",
             options: {
               babelrc: false,
-              presets: [
-                "@babel/preset-react",
-                [
-                  "@babel/preset-env",
-                  {
-                    "targets": {
-                      "node": "current"
-                    }
-                  }
-                ]
-              ],
-              "plugins": [
+              presets: babelConfig.presets,
+              plugins: [
                 "dynamic-import-node",
-                "@loadable/babel-plugin"
+                ...babelConfig.plugins
               ]
             }
           },
