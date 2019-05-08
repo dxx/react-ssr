@@ -1,3 +1,4 @@
+const path = require("path");
 const merge = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require("@loadable/webpack-plugin");
@@ -18,7 +19,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       {
         test: /\.(js|jsx)$/,
         loader: ["babel-loader", "eslint-loader"],
-        exclude: /node_modules/
+        include: [ path.resolve(__dirname, "../src") ]
       },
       ...util.styleLoaders({
         sourceMap: isProd ? true : false,

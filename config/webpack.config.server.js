@@ -15,7 +15,11 @@ const webpackConfig = merge(baseWebpackConfig, {
     libraryTarget: "commonjs2"  // 打包成commonjs2规范
   },
   target: "node",  // 指定node运行环境
-  externals: [nodeExternals()],  // 不绑定node模块，保留为 require()
+  externals: [
+    nodeExternals({
+      whitelist: [/\.css$/]  // 忽略css，让webpack处理
+    })
+  ],  // 不绑定node模块，保留为 require()
   module: {
     rules: [
       {
