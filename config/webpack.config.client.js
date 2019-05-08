@@ -18,7 +18,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        loader: ["babel-loader", "eslint-loader"],
+        loader: [ "babel-loader", "eslint-loader" ],
         include: [ path.resolve(__dirname, "../src") ]
       },
       ...util.styleLoaders({
