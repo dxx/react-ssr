@@ -30,7 +30,10 @@ const render = (req, res) => {
   console.log("======enter server======");
   console.log("visit url: " + req.url);
 
-  renderer.renderToString(req).then(({error, html}) => {
+  // 此对象会合并然后传给给服务端路由，不需要可不传
+  const context = {};
+
+  renderer.renderToString(req, context).then(({error, html}) => {
     if (error) {
       if (error.url) {
         res.redirect(error.url);

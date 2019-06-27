@@ -10,7 +10,7 @@ class ServerRenderer {
     this.manifest = manifest;
     this.serverEntry = this._createEntry(bundle);
   }
-  renderToString(request) {
+  renderToString(request, staticContext) {
     return new Promise((resolve, reject) => {
       const serverEntry = this.serverEntry;
 
@@ -23,6 +23,10 @@ class ServerRenderer {
       const render = () => {
         // 存放组件内部路由相关属性，包括状态码，地址信息，重定向的url
         let context = {};
+
+        if (staticContext && staticContext.constructor === Object) {
+          Object.assign(context, staticContext);
+        }
 
         let component = createApp(context, request.url, store);
         let extractor = new ChunkExtractor({ 
