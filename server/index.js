@@ -28,7 +28,7 @@ const render = (req, res) => {
   console.log("======enter server======");
   console.log("visit url: " + req.url);
 
-  // 此对象会合并然后传给给服务端路由，不需要可不传
+  // 此对象会合并然后传给服务端路由，不需要可不传
   const context = {};
 
   renderer.renderToString(req, context).then(({error, html}) => {
